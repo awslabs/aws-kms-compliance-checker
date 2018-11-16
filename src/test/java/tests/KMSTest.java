@@ -29,8 +29,7 @@ public class KMSTest extends CheckerFrameworkPerDirectoryTest {
                 com.amazon.checkerframework.compliance.kms.ComplianceChecker.class,
                 "kms",
                 "-Anomsgtext",
-                "-Astubs=configuration/stubs/GenerateDataKeyRequest.astub",
-                "-nowarn");
+		"-nowarn");
     }
 
     @Parameters
