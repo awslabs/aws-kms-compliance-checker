@@ -30,5 +30,3 @@ dependencies {
   
   implementation group: 'org.checkerframework', name: 'checker', version: '2.+'
 }
-
-println(sourceSets.getByName("test").allSource.asPath)

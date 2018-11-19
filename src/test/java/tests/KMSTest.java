@@ -19,8 +19,8 @@ import org.junit.runners.Parameterized.Parameters;
  * To add a new test case, create a Java file in that directory. Use the "// :: error: " syntax to add any expected
  * warnings. All files ending in .java in that directory will automatically be run by this test runner.
  *
- * This test runner depends on the Checker Framework's testing library, which is found in the Brazil package
- * Maven-org-checkerframework_testlib.
+ * This test runner depends on the Checker Framework's testing library, which is found in the Maven artifact
+ * org.checkerframework:testlib.
  */
 public class KMSTest extends CheckerFrameworkPerDirectoryTest {
     public KMSTest(List<File> testFiles) {
