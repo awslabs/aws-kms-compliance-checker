@@ -4,7 +4,7 @@ A Java compiler plugin that proves, at compile-time, that Java code only request
 
 ## What's it for?
 
-A common compliance requirement (e.g. for SOX or PCI-DSS) is that data encrypted at rest must be encrypted with 256-bit keys. If you're using AWS KMS to generate data keys that encrypt your data, this checker can enforce that every data key you request from KMS is 256-bit. Unlike a traditional audit, running this checker is automatic and comprehensive: while it might not be feasible for an auditor to look at all of your code, the checker is able to scan an entire codebase in seconds and report any violations. If the check passes, you can be confident that you never request keys shorter than 256-bits from AWS KMS.
+A common compliance requirement (e.g. for SOC or PCI-DSS) is that data encrypted at rest must be encrypted with 256-bit keys. If you're using AWS KMS to generate data keys that encrypt your data, this checker can enforce that every data key you request from KMS is 256-bit. Unlike a traditional audit, running this checker is automatic and comprehensive: while it might not be feasible for an auditor to look at all of your code, the checker is able to scan an entire codebase in seconds and report any violations. If the check passes, you can be confident that you never request keys shorter than 256-bits from AWS KMS.
 
 ## How does it work?
 
