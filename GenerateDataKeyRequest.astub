@@ -1,0 +1,31 @@
+// external KMS API
+package com.amazonaws.services.kms.model;
+import org.checkerframework.common.value.qual.*;
+
+class GenerateDataKeyRequest {
+    GenerateDataKeyRequest withKeySpec(@StringVal("AES_256") String keySpec) { }
+    GenerateDataKeyRequest withKeySpec(@StringVal("AES_256") DataKeySpec keySpec) { }
+    GenerateDataKeyRequest withNumberOfBytes(@IntRange(from=32) Integer numberOfBytes) { }
+    void setKeySpec(@StringVal("AES_256") String keySpec) { }
+    void setKeySpec(@StringVal("AES_256") DataKeySpec keySpec) { }
+    void setNumberOfBytes(@IntRange(from=32) Integer numberOfBytes) { }
+}
+
+class GenerateDataKeyWithoutPlaintextRequest {
+    GenerateDataKeyWithoutPlaintextRequest withKeySpec(@StringVal("AES_256") String keySpec) { }
+    GenerateDataKeyWithoutPlaintextRequest withKeySpec(@StringVal("AES_256") DataKeySpec keySpec) { }
+    GenerateDataKeyWithoutPlaintextRequest withNumberOfBytes(@IntRange(from=32) Integer numberOfBytes) { }
+    void setKeySpec(@StringVal("AES_256") String keySpec) { }
+    void setKeySpec(@StringVal("AES_256") DataKeySpec keySpec) { }
+    void setNumberOfBytes(@IntRange(from=32) Integer numberOfBytes) { }
+}
+
+// Note that these don't actually do anything, because of this Checker Framework bug:
+// https://github.com/typetools/checker-framework/issues/2147
+// They're still here so that when that's fixed this will just work.
+// When that happens, we can remove the Java code in this package that implements special defaulting rules
+// for enums.
+enum DataKeySpec {
+    @StringVal("AES_256") AES_256,
+    @StringVal("AES_128") AES_128
+}
