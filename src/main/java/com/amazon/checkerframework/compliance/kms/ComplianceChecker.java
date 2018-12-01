@@ -8,15 +8,15 @@ import org.checkerframework.framework.source.SuppressWarningsKeys;
  * An extension of the Checker Framework's Constant Value Checker
  * (https://checkerframework.org/manual/#constant-value-checker)
  * for compliance checking. The extension exists for two reasons:
- * it adds "kms" and "compliance" as custom keys to the @SuppressWarnings
- * annotation (see annotation above on the class definition) and so
- * that we can work around this Checker Framework issue:
- * https://github.com/typetools/checker-framework/issues/2147.
+ * it adds "kms", "compliance", and "kms-compliance" as custom keys to the {@code @SuppressWarnings}
+ * annotation (see annotation above on the class definition) and it
+ * adds annotations on KMS's DataKeySpec.AES_256 and
+ * DataKeySpec.AES_128.
  *
- * That workaround uses the annotated type factory to
- * place annotations on KMS' DataKeySpec.AES_256 and
- * DataKeySpec.AES_128, which would otherwise appear
- * in stub files.
+ * <p>It would be better to write the DataKeySpec annotations in a stub file,
+ * but that does not work because of a Checker Framework bug:
+ * https://github.com/typetools/checker-framework/issues/2147.
+ * This checker does so programmatically to work around the issue.
  */
 @StubFiles("GenerateDataKeyRequest.astub")
 @SuppressWarningsKeys({"compliance", "kms", "kms-compliance"})

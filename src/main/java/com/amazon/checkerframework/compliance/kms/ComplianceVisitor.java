@@ -9,10 +9,10 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
  * the ComplianceAnnotatedTypeFactory, the CF thinks that this is a ValueChecker instance
  * and goes looking for something named ValueAnnotatedTypeFactory and fails.
  *
- * This class does nothing beyond naming ComplianceAnnotatedTypeFactory to disable the
+ * <p>This class does nothing beyond naming ComplianceAnnotatedTypeFactory to disable the
  * reflection loading mechanism.
  *
- * See https://checkerframework.org//manual/#creating-compiler-interface for the documentation of
+ * <p>See https://checkerframework.org/manual/#creating-compiler-interface for the documentation of
  * the reflective class-loading mechanism of the Checker Framework.
  * org.checkerframework.common.basetype.BaseTypeVisitor#createTypeFactory
  * implements the loading mechanism; see its documentation and implementation for more details.

@@ -10,8 +10,8 @@ import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import java.util.Collections;
 
 /**
- * Adds new type introduction rules so that DataKeySpec
- * enums are treated correctly.
+ * Adds new type introduction rules to give specific type annotations to DataKeySpec
+ * enums.
  */
 public class ComplianceAnnotatedTypeFactory extends ValueAnnotatedTypeFactory {
 

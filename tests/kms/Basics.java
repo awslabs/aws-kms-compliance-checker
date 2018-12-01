@@ -1,4 +1,4 @@
-// This is test data for the KMS compliance checker. This test is intended to check that the type system is working
+// This is test data for the KMS compliance checker. This test checks that the type system is working
 // correctly in basic cases.
 
 import org.checkerframework.common.value.qual.*;

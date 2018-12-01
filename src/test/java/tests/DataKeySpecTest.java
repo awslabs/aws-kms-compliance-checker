@@ -1,9 +1,9 @@
 // This test ensures that com.amazonaws.services.kms.model.DataKeySpec only has
 // two enum values: AES_256 and AES_128. If not, then this package needs to be
 // updated:
-// 1. new tests should be added similar to the test data in tests/kms/EnumCheck.java for AES_256 and AES_128
-// 2. the spec in src/main/java/com/amazon/checkerframework/compliance/kms/GenerateDataKeyRequest.astub needs to be modified
-// 3. this test should be updated
+// 1. New tests should be added similar to the test data in tests/kms/EnumCheck.java for AES_256 and AES_128.
+// 2. The spec in src/main/java/com/amazon/checkerframework/compliance/kms/GenerateDataKeyRequest.astub needs to be modified.
+// 3. This test should be updated.
 
 import com.amazonaws.services.kms.model.DataKeySpec;
 
