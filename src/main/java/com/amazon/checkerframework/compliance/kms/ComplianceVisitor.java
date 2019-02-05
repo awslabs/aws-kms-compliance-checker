@@ -1,7 +1,7 @@
 package com.amazon.checkerframework.compliance.kms;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.common.value.ValueVisitor;
 
 /**
  * It's necessary to create this class to override the Checker Framework's standard
@@ -17,7 +17,7 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
  * org.checkerframework.common.basetype.BaseTypeVisitor#createTypeFactory
  * implements the loading mechanism; see its documentation and implementation for more details.
  */
-public class ComplianceVisitor extends BaseTypeVisitor<ComplianceAnnotatedTypeFactory> {
+public class ComplianceVisitor extends ValueVisitor {
     public ComplianceVisitor(BaseTypeChecker checker) {
         super(checker);
     }
