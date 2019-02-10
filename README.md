@@ -8,7 +8,7 @@ A common compliance requirement (e.g. for SOC or PCI-DSS) is that data encrypted
 
 ## How does it work?
 
-The compliance checker builds on the [Checker Framework](https://checkerframework.org/), an open-source tool for building extensions to the Java compiler's typechecker. A typechecker is perfect for checking a compliance rule, because typecheckers are *sound*, meaning that they never miss errors. In other words, a typechecker over-approximates what your program might do at runtime, so if the checker reports that the code is safe, you can be confident that it is.
+The compliance checker builds on the [Checker Framework](https://checkerframework.org/), an open-source tool licensed under the GPL 2.0 with Classpath Exception, for building extensions to the Java compiler's typechecker. A typechecker is perfect for checking a compliance rule, because typecheckers are *sound*, meaning that they never miss errors. In other words, a typechecker over-approximates what your program might do at runtime, so if the checker reports that the code is safe, you can be confident that it is.
 
 The checker might report false positives.
 If the checker issues an error, there are three possibilities:
