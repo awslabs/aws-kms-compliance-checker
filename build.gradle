@@ -1,32 +1,103 @@
+// TODO: We can't seem to use the nexus-staging plugin since
+// our package is put in with other softwareamazon repos
+// and the plugin can't automatically find ours.  For now
+// we'll just use the UI. An automatic solution would be nice.
+
+plugins {
+  id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+}
+
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.8
+group = 'software.amazon.checkerframework'
+archivesBaseName = 'aws-kms-compliance-checker'
+
+version = '1.0.2'
 
 repositories {
   mavenCentral()
 }
 
-buildscript {
-  repositories {
-      mavenCentral()
-  }
-  dependencies {
-      classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
-  }
-}
-
-apply plugin: "io.spring.dependency-management"
-
-dependencyManagement {
-  imports {
-      mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.228'
-  }
-}
-
 dependencies {
   testCompile 'com.amazonaws:aws-java-sdk-kms'
   testCompile group: 'junit', name: 'junit', version: '4.12'
-  testCompile group: 'org.checkerframework', name: 'testlib', version: '2.+'
-  
-  implementation group: 'org.checkerframework', name: 'checker', version: '2.+'
+  testCompile group: 'org.checkerframework', name: 'testlib', version: '2.5.4'
+  implementation group: 'org.checkerframework', name: 'checker', version: '2.6.0'
+}
+
+dependencyManagement {
+  imports {
+    mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.228'
+  }
+}
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+signing {
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'AWS KMS compliance checker'
+        packaging 'jar'
+        description 'A checker for the Checker Framework that assures that KMS keys are 256 bits.'
+        url 'https://github.com/awslabs/aws-kms-compliance-checker'
+
+        scm {
+          connection 'https://github.com/awslabs/aws-kms-compliance-checker.git'
+          developerConnection 'git@github.com:awslabs/aws-kms-compliance-checker.git'
+          url 'https://github.com/awslabs/aws-kms-compliance-checker'
+        }
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'kelloggm'
+            name 'Martin Kellogg'
+            email 'kelloggm@cs.washington.edu'
+          }
+
+          developer {
+            id 'seanmcl'
+            name 'Sean McLaughlin'
+            email 'seanmcl@amazon.com'
+          }
+        }
+      }
+    }
+  }
 }

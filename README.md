@@ -6,6 +6,39 @@ A Java compiler plugin that proves, at compile-time, that Java code only request
 
 A common compliance requirement (e.g. for SOC or PCI-DSS) is that data encrypted at rest must be encrypted with 256-bit keys. If you're using AWS KMS to generate data keys that encrypt your data, this checker can enforce that every data key you request from KMS is 256-bit. In a traditional manual audit, an auditor may not be able to examine every line of your code. By contrast, running this checker is automatic and comprehensive: the checker scans an entire codebase in seconds and reports any violations. If the check passes, you can be confident that you never request keys shorter than 256 bits from AWS KMS.
 
+## Usage
+
+The Maven coordinates for the latest version are
+
+```software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2```
+
+Here is how to use the package with some popular Java build systems.
+
+### Gradle
+
+If you're not yet using the Checker Framework, add the [generic Gradle file](https://raw.githubusercontent.com/typetools/checker-framework/master/docs/manual/checkerframework.gradle) referenced in [the Checker Framework manual](https://checkerframework.org/manual/#gradle)
+to your project's root directory.  Then update `checkerframework.gradle` to use the new checker
+
+```
+dependencies {
+    ...
+    annotationProcessor "software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2"
+}
+
+apply from: "checkerframework.gradle"
+```
+
+and add this checker to the list of processors
+
+```
+   options.compilerArgs = [
+        '-processor', 'com.amazon.checkerframework.compliance.kms.ComplianceChecker, ...,
+        ...
+   ]
+```
+
+Now when you run `gradle build` the build will fail if you are using 128-bit keys.  (Here is [an example project](https://github.com/seanmcl/kms-compliance-example) that follows these steps.)
+
 ## How does it work?
 
 The compliance checker builds on the [Checker Framework](https://checkerframework.org/), an open-source tool licensed under the GPL 2.0 with Classpath Exception, for building extensions to the Java compiler's typechecker. A typechecker is perfect for checking a compliance rule, because typecheckers are *sound*, meaning that they never miss errors. In other words, a typechecker over-approximates what your program might do at runtime, so if the checker reports that the code is safe, you can be confident that it is.
@@ -66,4 +99,4 @@ Note that these annotations were only required because of the indirection in the
 
 ## License
 
-This library is licensed under the Apache 2.0 License. 
+This library is licensed under the Apache 2.0 License.
