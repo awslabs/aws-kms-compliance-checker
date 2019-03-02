@@ -37,7 +37,17 @@ and add this checker to the list of processors
    ]
 ```
 
-Now when you run `gradle build` the build will fail if you are using 128-bit keys.  (Here is [an example project](https://github.com/seanmcl/kms-compliance-example) that follows these steps.)
+Now when you run `gradle build` the build will fail if you are using 128-bit keys.  (The `build.gradle` file for [this example project](https://github.com/seanmcl/kms-compliance-example) was constructed by following these steps.)
+
+### Ant
+
+First, ensure that the typechecker and its dependencies are on the classpath. Then, add the following line to your invocation of the `javac` target in your `build.xml` file:
+
+```
+<compilerarg line="-processor com.amazon.checkerframework.compliance.kms.ComplianceChecker"/>
+```
+
+For an example project using Ant and Ivy for dependency resolution, see the `build.xml` file in [this example project](https://github.com/seanmcl/kms-compliance-example).
 
 ## How does it work?
 
