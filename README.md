@@ -39,6 +39,63 @@ and add this checker to the list of processors
 
 Now when you run `gradle build` the build will fail if you are using 128-bit keys.  (The `build.gradle` file for [this example project](https://github.com/seanmcl/kms-compliance-example) was constructed by following these steps.)
 
+### Maven
+
+First, ensure the checker framework dependencies are on the classpath, the typechecker is on the `annotationProcessorPath`, and the annotation processor is invoked:
+
+```
+  <dependencies>
+    ...
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>jdk8</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+    ...
+  </dependencies>
+
+  <build>
+    ...
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          ...
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.checkerframework</groupId>
+              <artifactId>checker</artifactId>
+              <version>2.6.0</version>
+            </path>
+            <path>
+              <groupId>software.amazon.checkerframework</groupId>
+              <artifactId>aws-kms-compliance-checker</artifactId>
+              <version>1.0.2</version>
+            </path>
+          </annotationProcessorPaths>
+          <annotationProcessors>
+            <annotationProcessor>com.amazon.checkerframework.compliance.kms.ComplianceChecker</annotationProcessor>
+          </annotationProcessors>
+          <compilerArgs>
+            <arg>-processor</arg>
+            <arg>com.amazon.checkerframework.compliance.kms.ComplianceChecker</arg>
+            <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+          </compilerArgs>
+        ...
+      </plugin>
+    ...
+    </plugins>
+    ...
+  </build>
+```
+
+For an example project using Maven for dependency resolution, see the `pom.xml` file in [this example project](https://github.com/seanmcl/kms-compliance-example).
+
 ### Ant
 
 First, ensure that the typechecker and its dependencies are on the classpath. Then, add the following line to your invocation of the `javac` target in your `build.xml` file:
