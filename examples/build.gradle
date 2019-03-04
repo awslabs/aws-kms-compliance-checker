@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+  checkerFrameworkAnnotatedJDK
+}
+
+dependencies {
+  annotationProcessor "software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2"
+  checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:2.6.0"
+  implementation "org.checkerframework:checker-qual:2.6.0"
+  implementation group: 'com.amazonaws', name: 'aws-java-sdk-kms', version: '1.11.502'
+}
+
+allprojects {
+  tasks.withType(JavaCompile).all { JavaCompile compile ->
+    compile.doFirst {
+      compile.options.compilerArgs = [
+        '-processor', 'com.amazon.checkerframework.compliance.kms.ComplianceChecker',
+        "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}"
+      ]
+    }
+  }
+}
+
+
