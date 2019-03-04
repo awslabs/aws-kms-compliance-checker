@@ -12,20 +12,25 @@ The Maven coordinates for the latest version are
 
 ```software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2```
 
-Here is how to use the package with some popular Java build systems.
+The (https://github.com/awslabs/aws-kms-compliance-checker/tree/master/examples)[examples] directory
+has examples of how to use the checker with some popular Java build systems.
 
 ### Gradle
 
-If you're not yet using the Checker Framework, add the [generic Gradle file](https://raw.githubusercontent.com/typetools/checker-framework/master/docs/manual/checkerframework.gradle) referenced in [the Checker Framework manual](https://checkerframework.org/manual/#gradle)
-to your project's root directory.  Then update `checkerframework.gradle` to use the new checker
+To use Gradle add the Checker Framework and KMS key length checker to the dependencies
+as shown in (https://github.com/awslabs/aws-kms-compliance-checker/blob/master/examples/build.gradle)[build.gradle].
 
 ```
 dependencies {
-    ...
-    annotationProcessor "software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2"
+  ...
+  annotationProcessor "software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2"
+  checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:2.6.0"
+  implementation "org.checkerframework:checker-qual:2.6.0"
 }
 
-apply from: "checkerframework.gradle"
+configurations {
+  checkerFrameworkAnnotatedJDK
+}
 ```
 
 and add this checker to the list of processors
@@ -33,21 +38,23 @@ and add this checker to the list of processors
 ```
    options.compilerArgs = [
         '-processor', 'com.amazon.checkerframework.compliance.kms.ComplianceChecker, ...,
-        ...
+        '-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}'
    ]
 ```
 
-Now when you run `gradle build` the build will fail if you are using 128-bit keys.  (The `build.gradle` file for [this example project](https://github.com/seanmcl/kms-compliance-example) was constructed by following these steps.)
+Now when you run `gradle build` the build will fail if you are using 128-bit keys.
+
+### Maven
+
+For an example project using Maven, see the
+https://github.com/awslabs/aws-kms-compliance-checker/blob/master/examples/pom.xml)[example pom.xml].
+Running `mvn compile` will fail if you are using 128-bit keys.
 
 ### Ant
 
-First, ensure that the typechecker and its dependencies are on the classpath. Then, add the following line to your invocation of the `javac` target in your `build.xml` file:
-
-```
-<compilerarg line="-processor com.amazon.checkerframework.compliance.kms.ComplianceChecker"/>
-```
-
-For an example project using Ant and Ivy for dependency resolution, see the `build.xml` file in [this example project](https://github.com/seanmcl/kms-compliance-example).
+For an example project using Ant and Ivy for dependency resolution, see the
+(https://github.com/awslabs/aws-kms-compliance-checker/blob/master/examples/build.xml)[example build.xml].
+Running `ant compile` will fail if you are using 128-bit keys.
 
 ## How does it work?
 
