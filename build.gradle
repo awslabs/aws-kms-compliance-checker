@@ -10,10 +10,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'maven'
 
-if (project.hasProperty("signing.keyId")) {
-  apply plugin: 'signing'
-}
-
 sourceCompatibility = 1.8
 group = 'software.amazon.checkerframework'
 archivesBaseName = 'aws-kms-compliance-checker'
@@ -65,6 +61,7 @@ artifacts {
 }
 
 if (project.hasProperty("signing.keyId")) {
+  apply plugin: 'signing'
   signing {
     sign configurations.archives
   }
@@ -75,11 +72,11 @@ uploadArchives {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+      repository(url: 'https://aws.oss.sonatype.org/service/local/staging/deploy/maven2/') {
         authentication(userName: ossrhUsername, password: ossrhPassword)
       }
 
-      snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+      snapshotRepository(url: 'https://aws.oss.sonatype.org/content/repositories/snapshots/') {
         authentication(userName: ossrhUsername, password: ossrhPassword)
       }
 
