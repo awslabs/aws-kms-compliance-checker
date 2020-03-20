@@ -1,17 +1,29 @@
 package com.amazon.checkerframework.compliance.kms;
 
-import com.sun.source.tree.MemberSelectTree;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
-import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.ArrayLenRange;
+import org.checkerframework.common.value.qual.BoolVal;
+import org.checkerframework.common.value.qual.BottomVal;
+import org.checkerframework.common.value.qual.DoubleVal;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.IntRangeFromGTENegativeOne;
+import org.checkerframework.common.value.qual.IntRangeFromNonNegative;
+import org.checkerframework.common.value.qual.IntRangeFromPositive;
+import org.checkerframework.common.value.qual.IntVal;
+import org.checkerframework.common.value.qual.PolyValue;
+import org.checkerframework.common.value.qual.StringVal;
+import org.checkerframework.common.value.qual.UnknownVal;
 
-import java.util.Collections;
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 /**
- * Adds new type introduction rules to give specific type annotations to DataKeySpec
- * enums.
+ * Empty annotated type factory, in case we ever need one.
+ *
+ * Used to handle defaulting for enums until https://github.com/typetools/checker-framework/issues/2147
+ * was fixed.
  */
 public class ComplianceAnnotatedTypeFactory extends ValueAnnotatedTypeFactory {
 
@@ -21,34 +33,19 @@ public class ComplianceAnnotatedTypeFactory extends ValueAnnotatedTypeFactory {
     }
 
     @Override
-    public TreeAnnotator createTreeAnnotator() {
-        return new ListTreeAnnotator(
-                new ComplianceTreeAnnotator(this), super.createTreeAnnotator());
-    }
-
-    /**
-     * The tree annotator is responsible for placing default annotations on trees.
-     */
-    private class ComplianceTreeAnnotator extends TreeAnnotator {
-
-        private static final String DATA_KEY_SPEC = "com.amazonaws.services.kms.model.DataKeySpec";
-
-        ComplianceTreeAnnotator(ComplianceAnnotatedTypeFactory typeFactory) {
-            super(typeFactory);
-        }
-
-        /**
-         * The type of a value of the DataKeySpec enum is a StringVal with a
-         * value equal to the name of the member. So, for example, DataKeySpec.AES_256's
-         * type is @StringVal("AES_256").
-         */
-        @Override
-        public Void visitMemberSelect(MemberSelectTree tree, AnnotatedTypeMirror type) {
-            if (DATA_KEY_SPEC.equals(getAnnotatedType(tree.getExpression()).getUnderlyingType().toString())) {
-                String identifier = tree.getIdentifier().toString();
-                type.replaceAnnotation(createStringAnnotation(Collections.singletonList(identifier)));
-            }
-            return super.visitMemberSelect(tree, type);
-        }
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return getBundledTypeQualifiers(ArrayLen.class,
+                ArrayLenRange.class,
+                IntVal.class,
+                IntRange.class,
+                BoolVal.class,
+                StringVal.class,
+                DoubleVal.class,
+                BottomVal.class,
+                UnknownVal.class,
+                IntRangeFromPositive.class,
+                IntRangeFromNonNegative.class,
+                IntRangeFromGTENegativeOne.class,
+                PolyValue.class);
     }
 }
