@@ -20,11 +20,26 @@ repositories {
   mavenCentral()
 }
 
+configurations {
+    // for putting Error Prone javac in bootclasspath for running tests
+    errorproneJavac
+}
+
 dependencies {
   testCompile 'com.amazonaws:aws-java-sdk-kms'
   testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile group: 'org.checkerframework', name: 'framework-test', version: '3.1.1'
   implementation group: 'org.checkerframework', name: 'checker', version: '3.1.1'
+  errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+  implementation "com.google.errorprone:javac:9+181-r4173-1"
+
+}
+
+test {
+    inputs.files("tests/kms")
+    if (!JavaVersion.current().java9Compatible) {
+        jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+    }
 }
 
 dependencyManagement {
