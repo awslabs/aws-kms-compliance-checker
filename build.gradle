@@ -9,28 +9,42 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 group = 'software.amazon.checkerframework'
 archivesBaseName = 'aws-kms-compliance-checker'
 
-version = '1.0.2'
+version = '1.1.0'
 
 repositories {
   mavenCentral()
 }
 
+configurations {
+    // for putting Error Prone javac in bootclasspath for running tests
+    errorproneJavac
+}
+
 dependencies {
   testCompile 'com.amazonaws:aws-java-sdk-kms'
   testCompile group: 'junit', name: 'junit', version: '4.12'
-  testCompile group: 'org.checkerframework', name: 'testlib', version: '2.5.4'
-  implementation group: 'org.checkerframework', name: 'checker', version: '2.6.0'
+  testCompile group: 'org.checkerframework', name: 'framework-test', version: '3.1.1'
+  implementation group: 'org.checkerframework', name: 'checker', version: '3.1.1'
+  errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+  implementation "com.google.errorprone:javac:9+181-r4173-1"
+
+}
+
+test {
+    inputs.files("tests/kms")
+    if (!JavaVersion.current().java9Compatible) {
+        jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+    }
 }
 
 dependencyManagement {
   imports {
-    mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.228'
+    mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.731'
   }
 }
 
@@ -48,8 +62,11 @@ artifacts {
   archives javadocJar, sourcesJar
 }
 
-signing {
-  sign configurations.archives
+if (project.hasProperty("signing.keyId")) {
+  apply plugin: 'signing'
+  signing {
+    sign configurations.archives
+  }
 }
 
 uploadArchives {
@@ -57,11 +74,11 @@ uploadArchives {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+      repository(url: 'https://aws.oss.sonatype.org/service/local/staging/deploy/maven2/') {
         authentication(userName: ossrhUsername, password: ossrhPassword)
       }
 
-      snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+      snapshotRepository(url: 'https://aws.oss.sonatype.org/content/repositories/snapshots/') {
         authentication(userName: ossrhUsername, password: ossrhPassword)
       }
 
