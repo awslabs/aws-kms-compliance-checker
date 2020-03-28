@@ -20,7 +20,7 @@ import org.junit.runners.Parameterized.Parameters;
  * warnings. All files ending in .java in that directory will automatically be run by this test runner.
  *
  * <p>This test runner depends on the Checker Framework's testing library, which is found in the Maven artifact
- * org.checkerframework:testlib.
+ * org.checkerframework:framework-test.
  */
 public class KMSTest extends CheckerFrameworkPerDirectoryTest {
     public KMSTest(List<File> testFiles) {
