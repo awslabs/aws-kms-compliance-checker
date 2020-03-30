@@ -21,8 +21,8 @@ repositories {
 }
 
 configurations {
-    // for putting Error Prone javac in bootclasspath for running tests
-    errorproneJavac
+  // for putting Error Prone javac in bootclasspath for running tests
+  errorproneJavac
 }
 
 dependencies {
@@ -35,10 +35,10 @@ dependencies {
 }
 
 test {
-    inputs.files("tests/kms")
-    if (!JavaVersion.current().java9Compatible) {
-        jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
-    }
+  inputs.files("tests/kms")
+  if (!JavaVersion.current().java9Compatible) {
+    jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+  }
 }
 
 dependencyManagement {
