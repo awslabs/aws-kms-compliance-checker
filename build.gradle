@@ -32,7 +32,6 @@ dependencies {
   implementation group: 'org.checkerframework', name: 'checker', version: '3.2.0'
   errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
   implementation "com.google.errorprone:javac:9+181-r4173-1"
-
 }
 
 test {
