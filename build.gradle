@@ -4,11 +4,10 @@
 // we'll just use the UI. An automatic solution would be nice.
 
 plugins {
+  id 'java'
+  id 'maven' // TODO: 'maven' plugin is deprecated, use 'maven-publish' instead
   id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
-
-apply plugin: 'java'
-apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 group = 'software.amazon.checkerframework'
