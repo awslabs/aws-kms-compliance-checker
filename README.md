@@ -24,8 +24,8 @@ as shown in (https://github.com/awslabs/aws-kms-compliance-checker/blob/master/e
 dependencies {
   ...
   annotationProcessor "software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2"
-  checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:3.2.0"
-  implementation "org.checkerframework:checker-qual:3.2.0"
+  checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:3.3.0"
+  implementation "org.checkerframework:checker-qual:3.3.0"
 }
 
 configurations {

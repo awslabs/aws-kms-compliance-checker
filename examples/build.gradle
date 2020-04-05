@@ -16,8 +16,8 @@ configurations {
 
 dependencies {
   annotationProcessor 'software.amazon.checkerframework:aws-kms-compliance-checker:1.0.2'
-  checkerFrameworkAnnotatedJDK 'org.checkerframework:jdk8:3.2.0'
-  implementation 'org.checkerframework:checker-qual:3.2.0'
+  checkerFrameworkAnnotatedJDK 'org.checkerframework:jdk8:3.3.0'
+  implementation 'org.checkerframework:checker-qual:3.3.0'
   implementation group: 'com.amazonaws', name: 'aws-java-sdk-kms', version: '1.11.502'
 }
 
