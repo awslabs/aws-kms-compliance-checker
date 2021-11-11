@@ -4,7 +4,8 @@ on: [push]
 
 permissions:
     id-token: write
-    contents: write    # This is required for actions/checkout@v1
+    contents: write
+    security-events: write # To upload sarif files
 
 jobs:
   build:
